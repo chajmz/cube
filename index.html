@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cumulative Distance by Year</title>
+    <!-- Inclure la bibliothèque Plotly -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+
+<div id="plot"></div>
+
+<script>
+    // Charger les données depuis le fichier JSON
+    fetch('graph.json')
+        .then(response => response.json())
+        .then(data => {
+            var trace1 = {
+                x: data.years,
+                y: data.cumulative_distance,
+                mode: 'lines+markers',
+                type: 'scatter'
+            };
+
+            var layout = {
+                title: 'Cumulative Distance by Year',
+                xaxis: {
+                    title: 'Year'
+                },
+                yaxis: {
+                    title: 'Cumulative Distance (km)'
+                }
+            };
+
+            var config = {responsive: true};
+
+            Plotly.newPlot('plot', [trace1], layout, config);
+        });
+</script>
+
+</body>
+</html>
