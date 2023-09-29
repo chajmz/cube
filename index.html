@@ -20,28 +20,27 @@
     })
     .then(data => {
         console.log(data);  // Ajoutez cette ligne
-            var trace1 = {
-                x: data.years,
-                y: data.cumulative_distance,
-                mode: 'lines+markers',
-                type: 'scatter'
-            };
+        var trace1 = {
+            x: data.years,
+            y: data.cumulative_distance,
+            mode: 'lines+markers',
+            type: 'scatter'
+        };
 
-            var layout = {
-                title: 'Cumulative Distance by Year',
-                xaxis: {
-                    title: 'Year3333'
-                },
-                yaxis: {
-                    title: 'Cumulative Distance (km)'
-                }
-            };
+        var layout = {
+            title: 'Cumulative Distance by Year',
+            xaxis: {
+                title: 'Year3333'
+            },
+            yaxis: {
+                title: 'Cumulative Distance (km)'
+            }
+        };
 
-            var config = {responsive: true};
+        var config = {responsive: true};
 
-            Plotly.newPlot('plot', [trace1], layout, config);
-        });
-    })
+        Plotly.newPlot('plot', [trace1], layout, config);
+    })  <!-- Notez la correction ici -->
     .catch(error => console.error('Error fetching JSON:', error));  // Ajoutez cette ligne pour attraper les erreurs
 
 </script>
