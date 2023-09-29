@@ -12,10 +12,14 @@
 <div id="plot"></div>
 
 <script>
-    // Charger les données depuis le fichier JSON
+
     fetch('graph.json')
-        .then(response => response.json())
-        .then(data => {
+    .then(response => {
+        console.log(response);  // Ajoutez cette ligne
+        return response.json();
+    })
+    .then(data => {
+        console.log(data);  // Ajoutez cette ligne
             var trace1 = {
                 x: data.years,
                 y: data.cumulative_distance,
@@ -37,6 +41,9 @@
 
             Plotly.newPlot('plot', [trace1], layout, config);
         });
+    })
+    .catch(error => console.error('Error fetching JSON:', error));  // Ajoutez cette ligne pour attraper les erreurs
+
 </script>
 
 </body>
