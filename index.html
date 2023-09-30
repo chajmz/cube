@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cumulative Distance by Year</title>
-    <!-- Inclure la bibliothèque Plotly -->
+    <!-- Include Plotly library -->
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
@@ -12,37 +12,46 @@
 <div id="plot"></div>
 
 <script>
+    fetch('data4.json')  // Assurez-vous que le chemin vers votre fichier JSON est correct
+        .then(response => response.json())
+        .then(data => {
+            // Regrouper les données par année
+            const groupedData = {};
+            data.forEach(entry => {
+                const year = entry.year;
+                if (!groupedData[year]) {
+                    groupedData[year] = {x: [], y: []};
+                }
+                groupedData[year].x.push(entry.day_of_year);
+                groupedData[year].y.push(entry.cumulative_distance);
+            });
 
-    fetch('graph.json')
-    .then(response => {
-        console.log(response);  // Ajoutez cette ligne
-        return response.json();
-    })
-    .then(data => {
-        console.log(data);  // Ajoutez cette ligne
-        var trace1 = {
-            x: data.years,
-            y: data.cumulative_distance,
-            mode: 'lines+markers',
-            type: 'scatter'
-        };
-
-        var layout = {
-            title: 'Cumulative Distance by Year',
-            xaxis: {
-                title: 'Year3333'
-            },
-            yaxis: {
-                title: 'Cumulative Distance (km)'
+            // Créer un trace pour chaque année
+            const traces = [];
+            for (const year in groupedData) {
+                traces.push({
+                    x: groupedData[year].x,
+                    y: groupedData[year].y,
+                    mode: 'lines+markers',
+                    type: 'scatter',
+                    name: `Year ${year}`
+                });
             }
-        };
 
-        var config = {responsive: true};
+            const layout = {
+                title: 'Cumulative Distance by Year',
+                xaxis: {
+                    title: 'Days Since Start'
+                },
+                yaxis: {
+                    title: 'Cumulative Distance (km)'
+                }
+            };
 
-        Plotly.newPlot('plot', [trace1], layout, config);
-    })  <!-- Notez la correction ici -->
-    .catch(error => console.error('Error fetching JSON:', error));  // Ajoutez cette ligne pour attraper les erreurs
+            const config = {responsive: true};
 
+            Plotly.newPlot('plot', traces, layout, config);
+        });
 </script>
 
 </body>
